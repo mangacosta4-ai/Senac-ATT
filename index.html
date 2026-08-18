@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Afazeres</title>
+</head>
+<body>
+
+    <!-- Criando elementos visuais -->
+
+    <h1>Lista de Afazeres</h1>
+    <input type="text" id="nova-tarefa">
+    <button id="btn-adicionar">Criar Tarefa</button>
+    <p id="lista-tarefas"></p>
+    <ul id="contador"> 0 Tarefas Cadastradas</ul>
+    <p id="estado-vazio">Nenhuma Tarefa Cadastrada</p>
+
+<script>
+
+// Lista de tarefas vazias
+let tarefas = [];
+
+// criando elementos do DOM
+
+const inputTarefas = document.getElementById("nova-tarefa");
+const btnAdicionar = document.getElementById("btn-adicionar");
+const listaTarefas = document.getElementById("lista-tarefas");
+const contador = document.getElementById("contador");
+const estadovazio = document.getElementById("estado-vazio");
+
+
+//funcao responsavel por adicionar as tarefas
+function adicionarTarefas(){
+    // remove estaços do texto (inicio e fim)
+    const texto = inputTarefas.value.trim();
+    // se o campo estiver vazio nao retorna nada
+    if (texto == "" ){
+        return;
+    }
+    
+    // adiciona uma nova tarefa ao array Tarefas, se tiver vazio nao o faz.
+        tarefas.push(texto);
+    
+    // criando renderização/atualização de Interface de lista das tarefas
+        renderizarTarefas();
+    
+    // Limpando campo de Input ao adicionar a tarefa automaticamente
+        inputTarefas.value = "";
+    
+}
+    
+
+// Atualizar o DOM
+function renderizarTarefas(){
+
+    // limpa toda a lista antes de recria-la
+    listaTarefas.innerHTML = "";
+
+    // percorre a lista usando o indice da tarefa no array
+    tarefas.forEach((tarefa,indice) =>{
+        // cria um elemento de lista
+        const item = document.createElement("li");
+
+        // insere o texto da tarefa e um botao para a remover
+        item.innerHTML = `
+        ${tarefa}
+        <button onclick="removerTarefa(${indice})"> Remover </button>`;
+
+        // adiciona o item na lista exibida na tela
+        listaTarefas.appendChild(item);
+
+    })
+}
+
+// Criando Captura de Evento; Quando clicar, chama a funcao adicionarTarefas
+    btnAdicionar.addEventListener("click", adicionarTarefas);
+
+//removendo a tarefa 
+    function removerTarefa(indice){
+
+        // remove a tarefa na posicao do indice
+        tarefas.splice(indice);
+
+        // atualiza a tela após remoção
+        renderizarTarefas();
+
+    }
+
+// Exibe as tarefas quando a pagina carregar
+    renderizarTarefas();
+    // . . .. .
+
+</script>
+
+</body>
+</html>
